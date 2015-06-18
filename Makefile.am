@@ -49,3 +49,5 @@ dist-hook:
 	echo >> $(distdir)/docs/README
 	rm -rf `find $(distdir) -type d -name ".svn"`
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = SDL_sound.pc
