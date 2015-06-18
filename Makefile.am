@@ -2,7 +2,7 @@ lib_LTLIBRARIES = libSDL_sound.la
 
 SUBDIRS = decoders .
 
-libSDL_soundincludedir = $(includedir)/SDL
+libSDL_soundincludedir = $(includedir)/SDL2
 libSDL_soundinclude_HEADERS =	\
 	SDL_sound.h
 
