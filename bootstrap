@@ -6,7 +6,7 @@ aclocal
 
 # MacOS X renames GNU libtool to "glibtool", since they have something
 #  else called "libtool" already...
-if [ -x /usr/bin/glibtoolize ]; then
+if $(which glibtoolize); then
   glibtoolize --automake --copy --force
 else
   libtoolize --automake --copy --force
