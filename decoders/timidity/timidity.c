@@ -54,28 +54,30 @@ static char def_instr_name[256] = "";
 static char *RWgets(SDL_RWops *rw, char *s, int size)
 {
     int num_read = 0;
-    int newline = 0;
+    char *p = s;
 
-    while (num_read < size && !newline)
+    --size;/* so that we nul terminate properly */
+
+    for (; num_read < size; ++p)
     {
-	if (SDL_RWread(rw, &s[num_read], 1, 1) != 1)
+	if (SDL_RWread(rw, p, 1, 1) != 1)
 	    break;
+
+	num_read++;
 
 	/* Unlike fgets(), don't store newline. Under Windows/DOS we'll
 	 * probably get an extra blank line for every line that's being
 	 * read, but that should be ok.
 	 */
-	if (s[num_read] == '\n' || s[num_read] == '\r')
+	if (*p == '\n' || *p == '\r')
 	{
-	    s[num_read] = '\0';
-	    newline = 1;
+	    *p = '\0';
+	    return s;
 	}
-	
-	num_read++;
     }
 
-    s[num_read] = '\0';
-    
+    *p = '\0';
+
     return (num_read != 0) ? s : NULL;
 }
 
@@ -179,7 +181,7 @@ static int read_config_file(char *name)
             /*
              * I can't find any documentation for these, but I guess they're
              * an alternative way of loading/unloading instruments.
-             * 
+             *
              * "soundfont" sf_file "remove"
              * "soundfont" sf_file ["order=" order] ["cutoff=" cutoff]
              *                     ["reso=" reso] ["amp=" amp]
@@ -207,7 +209,7 @@ static int read_config_file(char *name)
     }
 
         /* Standard TiMidity config */
-    
+
     else if (!strcmp(w[0], "dir"))
     {
       if (words < 2)
@@ -455,7 +457,7 @@ MidiSong *Timidity_LoadDLSSong(SDL_RWops *rw, DLS_Patches *patches, SDL_AudioSpe
 
   if (rw == NULL)
       return NULL;
-  
+
   /* Allocate memory for the song */
   song = (MidiSong *)safe_malloc(sizeof(*song));
   memset(song, 0, sizeof(*song));
@@ -516,7 +518,7 @@ MidiSong *Timidity_LoadDLSSong(SDL_RWops *rw, DLS_Patches *patches, SDL_AudioSpe
   song->buffer_size = audio->samples;
   song->resample_buffer = safe_malloc(audio->samples * sizeof(sample_t));
   song->common_buffer = safe_malloc(audio->samples * 2 * sizeof(Sint32));
-  
+
   song->control_ratio = audio->freq / CONTROLS_PER_SECOND;
   if (song->control_ratio < 1)
       song->control_ratio = 1;
@@ -532,7 +534,7 @@ MidiSong *Timidity_LoadDLSSong(SDL_RWops *rw, DLS_Patches *patches, SDL_AudioSpe
   /* The RWops can safely be closed at this point, but let's make that the
    * responsibility of the caller.
    */
-  
+
   /* Make sure everything is okay */
   if (!song->events) {
     free(song);
@@ -568,7 +570,7 @@ void Timidity_FreeSong(MidiSong *song)
     if (song->drumset[i])
       free(song->drumset[i]);
   }
-  
+
   free(song->common_buffer);
   free(song->resample_buffer);
   free(song->events);
