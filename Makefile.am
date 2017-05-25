@@ -27,7 +27,8 @@ endif
 
 libSDL_sound_la_LDFLAGS = 		\
 	-release $(LT_RELEASE)	\
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
+	-no-undefined
 libSDL_sound_la_LIBADD =	\
 	decoders/libdecoders.la	\
 	$(TIMIDITY_LIB) $(MPG123_LIB)
