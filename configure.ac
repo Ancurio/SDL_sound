@@ -1,5 +1,7 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(SDL_sound.c)
+AC_PREREQ([2.69])
+
+AC_INIT([SDL_sound],[1.0.3],[Ryan C. Gordon <icculus@icculus.org>])
 
 dnl ---------------------------------------------------------------------
 dnl System/version info
@@ -43,9 +45,8 @@ AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 dnl Setup for automake
-AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(SDL_sound, $VERSION)
-
+AC_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE([1.15 foreign -Wall])
 
 dnl ---------------------------------------------------------------------
 dnl Compilers and other tools
