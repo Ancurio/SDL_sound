@@ -59,6 +59,7 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AM_PROG_AR
 AM_PROG_AS
+PKG_PROG_PKG_CONFIG
 LT_INIT(win32-dll)
 
 dnl ---------------------------------------------------------------------
@@ -96,11 +97,11 @@ dnl ---------------------------------------------------------------------
 dnl Check for SDL
 SDL_VERSION=2.0.0
 AC_SUBST(SDL_VERSION)
-AM_PATH_SDL($SDL_VERSION,
+AM_PATH_SDL2($SDL_VERSION,
             :,
  	     AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
 )
-SDLSOUNDCFLAGS="$SDLSOUNDCFLAGS $SDL_CFLAGS"
+CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
 
@@ -311,7 +312,7 @@ AC_TYPE_SIZE_T
 AC_FUNC_MEMCMP
 AC_CHECK_FUNCS([memset strrchr setbuf])
 
-CFLAGS="$SDLSOUNDCFLAGS $CFLAGS -D_REENTRANT -D_THREAD_SAFE"
+CFLAGS="$CFLAGS -D_REENTRANT -D_THREAD_SAFE"
 
 dnl Add Makefile conditionals
 AM_CONDITIONAL(USE_TIMIDITY, test x$enable_midi = xyes)
