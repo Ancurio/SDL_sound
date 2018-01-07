@@ -104,60 +104,71 @@ LIBS="$LIBS $SDL_LIBS"
 
 
 # Check for voc decoder inclusion...
-AC_ARG_ENABLE([voc],
-	AS_HELP_STRING([--enable-voc], [enable VOC decoding [default=yes]]))
-AS_IF([test x$enable_voc = xyes], [
-	AC_DEFINE([SOUND_SUPPORTS_VOC],[1],[Define if VOC support is desired])
-])
+AC_ARG_ENABLE(voc,
+[  --enable-voc               enable VOC decoding [default=yes]],
+              , enable_voc=yes)
+if test x$enable_voc = xyes; then
+    AC_DEFINE(SOUND_SUPPORTS_VOC, 1, [Define if VOC support is desired.])
+fi
+
 
 # Check for wav decoder inclusion...
-AC_ARG_ENABLE([wav],
-	AS_HELP_STRING([--enable-wav], [enable WAV decoding [default=yes]]))
-AS_IF([test x$enable_wav = xyes], [
-	AC_DEFINE([SOUND_SUPPORTS_WAV],[1],[Define if WAV support is desired])
-])
+AC_ARG_ENABLE(wav,
+[  --enable-wav               enable WAV decoding [default=yes]],
+              , enable_wav=yes)
+if test x$enable_wav = xyes; then
+    AC_DEFINE(SOUND_SUPPORTS_WAV, 1, [Define if WAV support is desired.])
+fi
+
 
 # Check for raw decoder inclusion...
-AC_ARG_ENABLE([raw],
-	AS_HELP_STRING([--enable-raw], [enable raw audio "decoding" [default=yes]]))
-AS_IF([test x$enable_raw = xyes], [
-	AC_DEFINE([SOUND_SUPPORTS_RAW],[1],[Define if RAW support is desired])
-])
+AC_ARG_ENABLE(raw,
+[  --enable-raw               enable raw audio "decoding" [default=yes]],
+              , enable_raw=yes)
+if test x$enable_raw = xyes; then
+    AC_DEFINE(SOUND_SUPPORTS_RAW, 1, [Define if RAW support is desired.])
+fi
+
 
 # Check for aiff decoder inclusion...
-AC_ARG_ENABLE([aiff],
-	AS_HELP_STRING([--enable-aiff], [enable AIFF decoding [default=yes]]))
-AS_IF([test x$enable_aiff = xyes], [
-	AC_DEFINE([SOUND_SUPPORTS_AIFF],[1],[Define if AIFF support is desired])
-])
+AC_ARG_ENABLE(aiff,
+[  --enable-aiff              enable AIFF decoding [default=yes]],
+              , enable_aiff=yes)
+if test x$enable_aiff = xyes; then
+    AC_DEFINE(SOUND_SUPPORTS_AIFF, 1, [Define if AIFF support is desired.])
+fi
 
 # Check for au decoder inclusion
-AC_ARG_ENABLE([au],
-	AS_HELP_STRING([--enable-au], [enable AU decoding [default=yes]]))
-AS_IF([test x$enable_au = xyes], [
-	AC_DEFINE([SOUND_SUPPORTS_AU],[1],[Define if AU support is desired.])
-])
+AC_ARG_ENABLE(au,
+[  --enable-au                enable AU decoding [default=yes]],
+              , enable_au=yes)
+if test x$enable_au = xyes; then
+    AC_DEFINE(SOUND_SUPPORTS_AU, 1, [Define if AU support is desired.])
+fi
 
 # Check for shn decoder inclusion...
-AC_ARG_ENABLE([shn],
-	AS_HELP_STRING([--enable-shn], [enable SHN decoding [default=yes]]))
-AS_IF([test x$enable_shn = xyes], [
-	AC_DEFINE([SOUND_SUPPORTS_SHN],[1],[Define if SHN support is desired.])
-])
+AC_ARG_ENABLE(shn,
+[  --enable-shn               enable SHN decoding [default=yes]],
+              , enable_shn=yes)
+if test x$enable_shn = xyes; then
+    AC_DEFINE(SOUND_SUPPORTS_SHN, 1, [Define if SHN support is desired.])
+fi
 
 # Check for the MIDI decoder...
-AC_ARG_ENABLE([midi],
-	AS_HELP_STRING([--enable-midi], [enable software MIDI music [default=yes]]]))
-AS_IF([test x$enable_midi = xyes], [
-  AC_DEFINE([SOUND_SUPPORTS_MIDI],[1],[Define if MIDI support is desired.])
-])
+AC_ARG_ENABLE(midi,
+[  --enable-midi              enable software MIDI music [default=yes]],
+              , enable_midi=yes)
+if test x$enable_midi = xyes; then
+  AC_DEFINE(SOUND_SUPPORTS_MIDI, 1, [Define if MIDI support is desired.])
+fi
 
 # Check for the MP3 decoder...
-AC_ARG_ENABLE([mpg123],
-	AS_HELP_STRING([--enable-mpg123], [enable MP3 decoding [default=yes]]))
-AS_IF([test x$enable_mpg123 = xyes], [
-  AC_DEFINE([SOUND_SUPPORTS_MPG123],[1],[Define if MPG123 support is desired.])
-])
+AC_ARG_ENABLE(mpg123,
+[  --enable-mpg123            enable MP3 decoding [default=yes]],
+              , enable_mpg123=yes)
+if test x$enable_mpg123 = xyes; then
+  AC_DEFINE(SOUND_SUPPORTS_MPG123, 1, [Define if MPG123 support is desired.])
+fi
 
 # Check for libmikmod
 AC_ARG_ENABLE(mikmod,
