@@ -4,7 +4,7 @@ endif
 
 # !!! FIXME: get MMX/SSE/Altivec/etc stuff in here.
 
-AM_CPPFLAGS = -I$(top_srcdir)/decodes/libmpg123
+INCLUDES = -I$(top_srcdir)/decodes/libmpg123
 libmpg123_la_CFLAGS = -DOPT_GENERIC -DREAL_IS_FLOAT -DMPG123_NO_CONFIGURE
 
 libmpg123_la_SOURCES = \

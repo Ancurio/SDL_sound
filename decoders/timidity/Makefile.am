@@ -2,7 +2,7 @@ if USE_TIMIDITY
 noinst_LTLIBRARIES = libtimidity.la
 endif
 
-AM_CPPFLAGS = -I$(top_srcdir)
+INCLUDES = -I$(top_srcdir)
 
 libtimidity_la_SOURCES =	\
 	common.c		\
