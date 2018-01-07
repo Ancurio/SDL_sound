@@ -50,6 +50,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)
 AM_INIT_AUTOMAKE([1.15 foreign -Wall])
 
+
 # ---------------------------------------------------------------------
 # Compilers and other tools
 # ---------------------------------------------------------------------
@@ -57,9 +58,9 @@ AM_INIT_AUTOMAKE([1.15 foreign -Wall])
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
-AM_PROG_AR
 AM_PROG_AS
-LT_INIT(win32-dll)
+AM_PROG_LIBTOOL
+
 
 # ---------------------------------------------------------------------
 # Debug mode?
