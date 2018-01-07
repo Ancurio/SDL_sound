@@ -1,6 +1,6 @@
 bin_PROGRAMS = playsound playsound_simple
 
-INCLUDES = -I$(top_srcdir)
+AM_CPPFLAGS = -I$(top_srcdir)
 
 if USE_PHYSICSFS
 PHYSFS_CFLG = -DSUPPORT_PHYSFS=1
