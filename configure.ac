@@ -65,21 +65,20 @@ dnl ---------------------------------------------------------------------
 dnl Debug mode?
 dnl ---------------------------------------------------------------------
 
-AC_ARG_ENABLE(debug,
-[  --enable-debug             enable debug mode [default=no]],
-              , enable_debug=no)
-if test x$enable_debug = xyes; then
-  if test x$ac_cv_prog_cc_g = xyes; then
-    SDLSOUNDCFLAGS="$SDLSOUNDCFLAGS -g -O0"
-  else
-    SDLSOUNDCFLAGS="$SDLSOUNDCFLAGS -O0"
-  fi
-  SDLSOUNDCFLAGS="$SDLSOUNDCFLAGS -Werror"
-  AC_DEFINE(DEBUG, 1, [Define for debug builds.])
-  AC_DEFINE(DEBUG_CHATTER, 1, [Define for debug build chattering.])
-else
-  AC_DEFINE(NDEBUG, 1, [Define to disable debugging.])
-fi
+AC_ARG_ENABLE([debug],
+	AS_HELP_STRING([--enable-debug], [Enable debug mode [default=no]]),
+	[enable_debug=yes],[enable_debug=no])
+AS_IF([test x$enable_debug = xyes], [
+	AS_IF([test x$ac_cv_prog_cc_g = xyes], [
+		AX_APPEND_COMPILE_FLAGS([-g -O0],[CFLAGS])], [
+		AX_APPEND_COMPILE_FLAGS([-O0],[CFLAGS])
+	])
+	AX_APPEND_COMPILE_FLAGS([-Werror],[CFLAGS])
+	AC_DEFINE([DEBUG],[1],[Define for debug builds.])
+	AC_DEFINE([DEBUG_CHATTER],[1],[Define for debug build chattering.])
+	], [
+	AC_DEFINE([NDEBUG],[1],[Define to disable debugging])
+])
 
 dnl ---------------------------------------------------------------------
 dnl Have GCC's -fvisibility option?
