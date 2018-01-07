@@ -45,9 +45,7 @@ AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 # Setup for automake
-AC_CONFIG_SRCDIR([SDL_sound.h])
-AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADERS(config.h)
+AC_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE([1.15 foreign -Wall])
 
 
