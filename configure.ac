@@ -1,9 +1,9 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT(SDL_sound.c)
 
-dnl ---------------------------------------------------------------------
-dnl System/version info
-dnl ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# System/version info
+# ---------------------------------------------------------------------
 
 # Making releases:
 #   MICRO_VERSION += 1;
@@ -38,18 +38,18 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-dnl Detect the canonical host and target build environment
+# Detect the canonical host and target build environment
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-dnl Setup for automake
+# Setup for automake
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(SDL_sound, $VERSION)
 
 
-dnl ---------------------------------------------------------------------
-dnl Compilers and other tools
-dnl ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Compilers and other tools
+# ---------------------------------------------------------------------
 
 AC_PROG_CC
 AC_PROG_INSTALL
@@ -58,9 +58,9 @@ AM_PROG_AS
 AM_PROG_LIBTOOL
 
 
-dnl ---------------------------------------------------------------------
-dnl Debug mode?
-dnl ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Debug mode?
+# ---------------------------------------------------------------------
 
 AC_ARG_ENABLE(debug,
 [  --enable-debug             enable debug mode [default=no]],
@@ -78,9 +78,9 @@ else
   AC_DEFINE(NDEBUG, 1, [Define to disable debugging.])
 fi
 
-dnl ---------------------------------------------------------------------
-dnl Have GCC's -fvisibility option?
-dnl ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Have GCC's -fvisibility option?
+# ---------------------------------------------------------------------
 AC_MSG_CHECKING(for GCC -fvisibility=hidden option)
 have_gcc_fvisibility=no
 visibility_CFLAGS="-fvisibility=hidden"
@@ -102,11 +102,11 @@ if test x$have_gcc_fvisibility = xyes; then
 fi
 
 
-dnl ---------------------------------------------------------------------
-dnl Checks for libraries.
-dnl ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Checks for libraries.
+# ---------------------------------------------------------------------
 
-dnl Check for SDL
+# Check for SDL
 SDL_VERSION=2.0.0
 AC_SUBST(SDL_VERSION)
 AM_PATH_SDL($SDL_VERSION,
@@ -117,7 +117,7 @@ SDLSOUNDCFLAGS="$SDLSOUNDCFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
 
-dnl Check for voc decoder inclusion...
+# Check for voc decoder inclusion...
 AC_ARG_ENABLE(voc,
 [  --enable-voc               enable VOC decoding [default=yes]],
               , enable_voc=yes)
@@ -126,7 +126,7 @@ if test x$enable_voc = xyes; then
 fi
 
 
-dnl Check for wav decoder inclusion...
+# Check for wav decoder inclusion...
 AC_ARG_ENABLE(wav,
 [  --enable-wav               enable WAV decoding [default=yes]],
               , enable_wav=yes)
@@ -135,7 +135,7 @@ if test x$enable_wav = xyes; then
 fi
 
 
-dnl Check for raw decoder inclusion...
+# Check for raw decoder inclusion...
 AC_ARG_ENABLE(raw,
 [  --enable-raw               enable raw audio "decoding" [default=yes]],
               , enable_raw=yes)
@@ -144,7 +144,7 @@ if test x$enable_raw = xyes; then
 fi
 
 
-dnl Check for aiff decoder inclusion...
+# Check for aiff decoder inclusion...
 AC_ARG_ENABLE(aiff,
 [  --enable-aiff              enable AIFF decoding [default=yes]],
               , enable_aiff=yes)
@@ -152,7 +152,7 @@ if test x$enable_aiff = xyes; then
     AC_DEFINE(SOUND_SUPPORTS_AIFF, 1, [Define if AIFF support is desired.])
 fi
 
-dnl Check for au decoder inclusion
+# Check for au decoder inclusion
 AC_ARG_ENABLE(au,
 [  --enable-au                enable AU decoding [default=yes]],
               , enable_au=yes)
@@ -160,7 +160,7 @@ if test x$enable_au = xyes; then
     AC_DEFINE(SOUND_SUPPORTS_AU, 1, [Define if AU support is desired.])
 fi
 
-dnl Check for shn decoder inclusion...
+# Check for shn decoder inclusion...
 AC_ARG_ENABLE(shn,
 [  --enable-shn               enable SHN decoding [default=yes]],
               , enable_shn=yes)
@@ -168,7 +168,7 @@ if test x$enable_shn = xyes; then
     AC_DEFINE(SOUND_SUPPORTS_SHN, 1, [Define if SHN support is desired.])
 fi
 
-dnl Check for the MIDI decoder...
+# Check for the MIDI decoder...
 AC_ARG_ENABLE(midi,
 [  --enable-midi              enable software MIDI music [default=yes]],
               , enable_midi=yes)
@@ -176,7 +176,7 @@ if test x$enable_midi = xyes; then
   AC_DEFINE(SOUND_SUPPORTS_MIDI, 1, [Define if MIDI support is desired.])
 fi
 
-dnl Check for the MP3 decoder...
+# Check for the MP3 decoder...
 AC_ARG_ENABLE(mpg123,
 [  --enable-mpg123            enable MP3 decoding [default=yes]],
               , enable_mpg123=yes)
@@ -184,7 +184,7 @@ if test x$enable_mpg123 = xyes; then
   AC_DEFINE(SOUND_SUPPORTS_MPG123, 1, [Define if MPG123 support is desired.])
 fi
 
-dnl Check for libmikmod
+# Check for libmikmod
 AC_ARG_ENABLE(mikmod,
 [  --enable-mikmod            enable MOD decoding via mikmod [default=yes]],
               , enable_mikmod=yes)
@@ -197,7 +197,7 @@ if test x$enable_mikmod = xyes; then
   fi
 fi
 
-dnl Check for libmodplug
+# Check for libmodplug
 AC_ARG_ENABLE(modplug,
 [  --enable-modplug           enable MOD decoding via modplug [default=yes]],
               , enable_modplug=yes)
@@ -226,8 +226,8 @@ if test x$have_ogg_hdr = xyes -a x$have_ogg_lib = xyes; then
   have_ogg=yes
 fi
 
-dnl !!! FIXME: should be --enable-vorbis.
-dnl Check for Ogg Vorbis
+# !!! FIXME: should be --enable-vorbis.
+# Check for Ogg Vorbis
 AC_ARG_ENABLE(ogg,
 [  --enable-ogg               enable OGG decoding via libvorbis [default=yes]],
               , enable_ogg=yes)
@@ -252,18 +252,18 @@ if test x$enable_ogg = xyes; then
 fi
 
 
-dnl Note that we intentionally look for a symbol in FLAC 1.0.4, since the
-dnl  FLAC developers tend to break their API with every release, so we're
-dnl  checking for the latest-and-greatest here so we don't have to support
-dnl  obsolete versions.
-dnl Starting with FLAC 1.1.3:
-dnl   libFLAC supports Ogg FLAC (no more libOggFLAC) so we also need -logg
-dnl   the libFLAC .so version is also #defined in FLAC/export.h
+# Note that we intentionally look for a symbol in FLAC 1.0.4, since the
+#  FLAC developers tend to break their API with every release, so we're
+#  checking for the latest-and-greatest here so we don't have to support
+#  obsolete versions.
+# Starting with FLAC 1.1.3:
+#   libFLAC supports Ogg FLAC (no more libOggFLAC) so we also need -logg
+#   the libFLAC .so version is also #defined in FLAC/export.h
 
-dnl Hooray for shitty autoconf bugs!
+# Hooray for shitty autoconf bugs!
 x="C__stream_decoder_process_single"
 flcsym="FLA$x"
-dnl Check for libFLAC
+# Check for libFLAC
 AC_ARG_ENABLE(flac,
 [  --enable-flac              enable FLAC decoding via libFLAC [default=yes]],
               , enable_flac=yes)
@@ -279,7 +279,7 @@ if test x$enable_flac = xyes; then
 fi
 
 
-dnl Check for speex
+# Check for speex
 AC_ARG_ENABLE(speex,
 [  --enable-speex             enable SPX decoding via libspeex [default=yes]],
               , enable_speex=yes)
@@ -295,7 +295,7 @@ if test x$enable_speex = xyes; then
 fi
 
 
-dnl Check for PhysicsFS http://icculus.org/physfs/
+# Check for PhysicsFS http://icculus.org/physfs/
 AC_ARG_ENABLE(physfs,
 [  --enable-physfs            enable PhysicsFS in playsound [default=yes]],
               , enable_physfs=yes)
@@ -329,7 +329,7 @@ AC_CHECK_FUNCS([memset strrchr setbuf])
 
 CFLAGS="$SDLSOUNDCFLAGS $CFLAGS -D_REENTRANT -D_THREAD_SAFE"
 
-dnl Add Makefile conditionals
+# Add Makefile conditionals
 AM_CONDITIONAL(USE_TIMIDITY, test x$enable_midi = xyes)
 AM_CONDITIONAL(USE_LIBMPG123, test x$enable_mpg123 = xyes)
 AM_CONDITIONAL(USE_PHYSICSFS, test x$enable_physfs = xyes)
