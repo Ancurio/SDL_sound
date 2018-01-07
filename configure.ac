@@ -57,9 +57,9 @@ dnl ---------------------------------------------------------------------
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
+AM_PROG_AR
 AM_PROG_AS
-AM_PROG_LIBTOOL
-
+LT_INIT(win32-dll)
 
 dnl ---------------------------------------------------------------------
 dnl Debug mode?
