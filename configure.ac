@@ -83,26 +83,11 @@ AS_IF([test x$enable_debug = xyes], [
 dnl ---------------------------------------------------------------------
 dnl Have GCC's -fvisibility option?
 dnl ---------------------------------------------------------------------
-AC_MSG_CHECKING(for GCC -fvisibility=hidden option)
-have_gcc_fvisibility=no
-visibility_CFLAGS="-fvisibility=hidden"
-save_CFLAGS="$CFLAGS"
-CFLAGS="$save_CFLAGS $visibility_CFLAGS"
-AC_TRY_COMPILE([
-#if !defined(__GNUC__) || __GNUC__ < 4
-#error SDL only uses visibility attributes in GCC 4 or newer
-#endif
-],[
-],[
-have_gcc_fvisibility=yes
+
+gl_VISIBILITY()
+AS_IF([test x$gl_cv_cc_visibility = xyes], [
+	AX_APPEND_COMPILE_FLAGS([$CFLAGS_VISIBILITY],[CFLAGS])
 ])
-AC_MSG_RESULT($have_gcc_fvisibility)
-CFLAGS="$save_CFLAGS"
-
-if test x$have_gcc_fvisibility = xyes; then
-    SDLSOUNDCFLAGS="$SDLSOUNDCFLAGS $visibility_CFLAGS"
-fi
-
 
 dnl ---------------------------------------------------------------------
 dnl Checks for libraries.
