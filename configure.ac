@@ -221,32 +221,20 @@ AS_IF([test x$enable_vorbis = xyes], [
 	])
 ])
 
-dnl Note that we intentionally look for a symbol in FLAC 1.0.4, since the
-dnl  FLAC developers tend to break their API with every release, so we're
-dnl  checking for the latest-and-greatest here so we don't have to support
-dnl  obsolete versions.
-dnl Starting with FLAC 1.1.3:
-dnl   libFLAC supports Ogg FLAC (no more libOggFLAC) so we also need -logg
-dnl   the libFLAC .so version is also #defined in FLAC/export.h
-
-dnl Hooray for shitty autoconf bugs!
-x="C__stream_decoder_process_single"
-flcsym="FLA$x"
-dnl Check for libFLAC
-AC_ARG_ENABLE(flac,
-[  --enable-flac              enable FLAC decoding via libFLAC [default=yes]],
-              , enable_flac=yes)
-if test x$enable_flac = xyes; then
-  AC_CHECK_HEADER(FLAC/stream_decoder.h, have_flac_hdr=yes)
-  AC_CHECK_LIB(FLAC, $flcsym, have_flac_lib=yes)
-  if test x$have_ogg = xyes; then
-    if test x$have_flac_hdr = xyes -a x$have_flac_lib = xyes; then
-      LIBS="$LIBS -lFLAC -logg"
-      AC_DEFINE(SOUND_SUPPORTS_FLAC, 1, [Define if FLAC support is desired.])
-    fi
-  fi
-fi
-
+dnl Check for FLAC
+PKG_CHECK_MODULES([FLAC],[ flac >= 1.0.4 ],[flac_found=yes],[flac_found=no])
+AC_ARG_ENABLE([flac],
+	AS_HELP_STRING([--enable-flac],[enable FLAC decoding via libFLAC [default=yes]]),
+	[],[enable_flac=yes])
+AS_IF([test x$enable_flac = xyes], [
+	AS_IF([test x$flac_found = xyes -a x$ogg_found = xyes], [
+		AC_DEFINE([SOUND_SUPPORTS_FLAC],[1],[Define if FLAC support is desired.])
+		AX_APPEND_LINK_FLAGS([$FLAC_LIBS $OGG_LIBS],[LIBS])
+		AX_APPEND_COMPILE_FLAGS([$FLAC_CFLAGS $OGG_CFLAGS],[CFLAGS])
+	], [
+		AC_MSG_NOTICE([*** FLAC requested but not found! ***])
+	])
+])
 
 dnl Check for speex
 AC_ARG_ENABLE(speex,
