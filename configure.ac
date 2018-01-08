@@ -237,20 +237,18 @@ AS_IF([test x$enable_flac = xyes], [
 ])
 
 dnl Check for speex
-AC_ARG_ENABLE(speex,
-[  --enable-speex             enable SPX decoding via libspeex [default=yes]],
-              , enable_speex=yes)
-if test x$enable_speex = xyes; then
-  AC_CHECK_HEADER(ogg/ogg.h, have_ogg_hdr=yes)
-  AC_CHECK_LIB(ogg, ogg_sync_init, have_ogg_lib=yes)
-  AC_CHECK_HEADER(speex/speex.h, have_speex_hdr=yes)
-  AC_CHECK_LIB(speex, speex_bits_init, have_speex_lib=yes)
-  if test "x$have_ogg_hdr" = "xyes" -a "x$have_ogg_lib" = "xyes" -a "x$have_speex_hdr" = "xyes" -a "x$have_speex_lib" = "xyes"; then
-    LIBS="$LIBS -logg -lspeex"
-    AC_DEFINE(SOUND_SUPPORTS_SPEEX, 1, [Define if SPEEX support is desired.])
-  fi
-fi
-
+PKG_CHECK_MODULES([SPEEX],[speex],[speex_found=yes],[speex_found=no])
+AC_ARG_ENABLE([speex],
+	AS_HELP_STRING([--enable-speex],[enable SPX decoding via libspeex [default=yes]]),
+	[],[enable_speex=yes])
+AS_IF([test x$enable_speex = xyes], [
+	AS_IF([test x$speex_found = xyes -a x$ogg_found = xyes], [
+		AC_DEFINE([SOUND_SUPPORTS_SPEEX],[1],[Define if SPEEX support is desired])
+		AX_APPEND_LINK_FLAGS([$OGG_LIBS $SPEEX_LIBS],[LIBS])
+	], [
+		AC_MSG_NOTICE([*** speex requested but not found ***])
+	])
+])
 
 dnl Check for PhysicsFS http://icculus.org/physfs/
 AC_ARG_ENABLE(physfs,
