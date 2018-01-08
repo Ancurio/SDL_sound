@@ -274,25 +274,22 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 
-# This is only in the bleeding edge autoconf distro...
-#AC_FUNC_MALLOC
-
-
 AC_FUNC_MEMCMP
-AC_CHECK_FUNCS([memset strrchr setbuf])
+AC_CHECK_FUNCS([malloc memset strrchr setbuf])
 
-CFLAGS="$CFLAGS -D_REENTRANT -D_THREAD_SAFE"
+AX_APPEND_COMPILE_FLAGS([-D_REENTRANT -D_THREAD_SAFE],[CFLAGS])
 
 dnl Add Makefile conditionals
 AM_CONDITIONAL(USE_TIMIDITY, test x$enable_midi = xyes)
 AM_CONDITIONAL(USE_LIBMPG123, test x$enable_mpg123 = xyes)
 AM_CONDITIONAL(USE_PHYSICSFS, test x$enable_physfs = xyes)
 
-AC_OUTPUT([
-Makefile
-decoders/Makefile
-decoders/timidity/Makefile
-decoders/libmpg123/Makefile
-playsound/Makefile
-SDL_sound.pc
+AC_CONFIG_FILES([
+	Makefile
+	decoders/Makefile
+	decoders/timidity/Makefile
+	decoders/libmpg123/Makefile
+	playsound/Makefile
+	SDL_sound.pc
 ])
+AC_OUTPUT
