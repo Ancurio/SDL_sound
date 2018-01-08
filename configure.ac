@@ -251,19 +251,18 @@ AS_IF([test x$enable_speex = xyes], [
 ])
 
 dnl Check for PhysicsFS http://icculus.org/physfs/
-AC_ARG_ENABLE(physfs,
-[  --enable-physfs            enable PhysicsFS in playsound [default=yes]],
-              , enable_physfs=yes)
-if test x$enable_physfs = xyes; then
-  AC_CHECK_HEADER(physfs.h, have_physfs_hdr=yes)
-  AC_CHECK_LIB(physfs, PHYSFS_init, have_physfs_lib=yes)
-  if test x$have_physfs_hdr = xyes -a x$have_physfs_lib = xyes; then
-    enable_physfs="yes"
-  else
-    enable_physfs="no"
-  fi
-fi
-
+PKG_CHECK_MODULES([PHYSFS],[physfs],[physfs_found=yes],[physfs_found=no])
+AC_ARG_ENABLE([physfs],
+	AS_HELP_STRING([--enable-physfs],[enable PhysicsFS in playsound [default=yes]]),
+	[],[enable_physfs=yes])
+AS_IF([test x$enable_physfs = xyes], [
+	AS_IF([test x$physfs_found = xyes], [
+		enable_physfs="yes"
+		AX_APPEND_COMPILE_FLAGS([-DSUPPORT_PHYSFS],[PHYSFS_CFLAGS])
+	], [
+		enable_physfs="no"
+	])
+])
 
 # Checks for header files.
 AC_HEADER_STDC
