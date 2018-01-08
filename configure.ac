@@ -170,17 +170,18 @@ AS_IF([test x$enable_mpg123 = xyes], [
 ])
 
 dnl Check for libmikmod
-AC_ARG_ENABLE(mikmod,
-[  --enable-mikmod            enable MOD decoding via mikmod [default=yes]],
-              , enable_mikmod=yes)
-if test x$enable_mikmod = xyes; then
-  AC_CHECK_HEADER(mikmod.h, have_mikmod_hdr=yes)
-  AC_CHECK_LIB(mikmod, MikMod_RegisterDriver, have_mikmod_lib=yes)
-  if test x$have_mikmod_hdr = xyes -a x$have_mikmod_lib = xyes; then
-    LIBS="$LIBS -lmikmod"
-    AC_DEFINE(SOUND_SUPPORTS_MIKMOD, 1, [Define if MIKMOD support is desired.])
-  fi
-fi
+PKG_CHECK_MODULES([MIKMOD],[libmikmod],[mikmod_found=yes],[mikmod_found=false])
+AC_ARG_ENABLE([mikmod],
+	AS_HELP_STRING([--enable-mikmod],[enable MOD decoding via mikmod [default=yes]]),
+	[],[enable_mikmod=yes])
+AS_IF([test x$enable_mikmod = xyes], [
+	AS_IF([test x$mikmod_found = xyes], [
+		AC_DEFINE([SOUND_SUPPORTS_MIKMOD],[1],[Define if mikmod support is desired])
+		AX_APPEND_LINK_FLAGS([$MIKMOD_LIBS],[LIBS])
+	], [
+		AC_MSG_NOTICE([*** mikmod requested but not found!])
+	])
+])
 
 dnl Check for libmodplug
 AC_ARG_ENABLE(modplug,
