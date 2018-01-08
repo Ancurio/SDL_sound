@@ -184,26 +184,25 @@ AS_IF([test x$enable_mikmod = xyes], [
 ])
 
 dnl Check for libmodplug
-AC_ARG_ENABLE(modplug,
-[  --enable-modplug           enable MOD decoding via modplug [default=yes]],
-              , enable_modplug=yes)
-if test x$enable_modplug = xyes; then
-  have_modplug_hdr=no
-  AC_CHECK_HEADER(modplug.h, have_modplug_hdr=yes)
-  if test x$have_modplug_hdr = xno; then
-    AC_CHECK_HEADER(libmodplug/modplug.h, have_modplug_hdr=yes)
-    if test x$have_modplug_hdr = xyes; then
-      have_modplug_hdr=yes
-      AC_DEFINE(SOUND_MODPLUG_IN_OWN_PATH, 1, [Define if modplug header is in own directory.])
-    fi
-  fi
-
-  AC_CHECK_LIB(modplug, ModPlug_Load, have_modplug_lib=yes)
-  if test x$have_modplug_hdr = xyes -a x$have_modplug_lib = xyes; then
-    LIBS="$LIBS -lmodplug"
-    AC_DEFINE(SOUND_SUPPORTS_MODPLUG, 1, [Define if MODPLUG support is desired.])
-  fi
-fi
+PKG_CHECK_MODULES([MODPLUG],[libmodplug],[modplug_found=yes],[modplug_found=no])
+AC_ARG_ENABLE([modplug],
+	AS_HELP_STRING([--enable-modplug],[enable MOD decoding via modplug [default=yes]]),
+	[],[enable_modplug=yes])
+AC_CHECK_HEADER([modplug.h], [have_modplug_h=yes],[have_modplug_h=no])
+AS_IF([test x$have_modplug_h = xno], [
+       AC_CHECK_HEADER([libmodplug/modplug.h],[have_libmodplug_modplug_h=yes])])
+AS_IF([test x$enable_modplug = xyes], [
+	AS_IF([test x$modplug_found = xyes], [
+		AC_DEFINE([SOUND_SUPPORTS_MODPLUG],[1],[Define if MODPLUG support is desired])
+		AX_APPEND_LINK_FLAGS([$MODPLUG_LIBS],[LIBS])
+		AX_APPEND_COMPILE_FLAGS([$MODPLUG_CFLAGS],[CFLAGS])
+		AS_IF([test x$have_libmodplug_modplug_h = xyes], [
+			AC_DEFINE([SOUND_MODPLUG_IN_OWN_PATH],[1],[Define if modplug header is in own directory])
+		])
+	], [
+		AC_MSG_NOTICE([*** modplug support requested but not found! ***])
+	])
+])
 
 AC_CHECK_HEADER(ogg/ogg.h, have_ogg_hdr=yes)
 AC_CHECK_LIB(ogg, ogg_sync_init, have_ogg_lib=yes)
