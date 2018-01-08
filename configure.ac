@@ -204,38 +204,22 @@ AS_IF([test x$enable_modplug = xyes], [
 	])
 ])
 
-AC_CHECK_HEADER(ogg/ogg.h, have_ogg_hdr=yes)
-AC_CHECK_LIB(ogg, ogg_sync_init, have_ogg_lib=yes)
-have_ogg=no
-if test x$have_ogg_hdr = xyes -a x$have_ogg_lib = xyes; then
-  have_ogg=yes
-fi
-
-dnl !!! FIXME: should be --enable-vorbis.
 dnl Check for Ogg Vorbis
-AC_ARG_ENABLE(ogg,
-[  --enable-ogg               enable OGG decoding via libvorbis [default=yes]],
-              , enable_ogg=yes)
-if test x$enable_ogg = xyes; then
-  AC_CHECK_HEADER(vorbis/codec.h, have_vorbis_hdr=yes)
-  AC_CHECK_LIB(vorbis, vorbis_info_init, have_vorbis_lib=yes)
-  AC_CHECK_HEADER(vorbis/vorbisfile.h, have_vorbisfile_hdr=yes)
-  AC_CHECK_LIB(vorbisfile, ov_open_callbacks, have_vorbisfile_lib=yes)
-  have_vorbis=no
-  if test x$have_ogg = xyes; then
-    if test x$have_vorbis_hdr = xyes -a x$have_vorbis_lib = xyes; then
-      if test x$have_vorbisfile_hdr = xyes -a x$have_vorbisfile_lib = xyes; then
-        have_vorbis=yes
-      fi
-    fi
-  fi
-
-  if test x$have_vorbis = xyes; then
-    LIBS="$LIBS -logg -lvorbis -lvorbisfile"
-    AC_DEFINE(SOUND_SUPPORTS_OGG, 1, [Define if OGG support is desired.])
-  fi
-fi
-
+PKG_CHECK_MODULES([OGG],[ogg],[ogg_found=yes],[ogg_found=no])
+PKG_CHECK_MODULES([VORBIS],[vorbis],[vorbis_found=yes],[vorbis_found=no])
+PKG_CHECK_MODULES([VORBISFILE],[vorbisfile],[vorbisfile_found=yes],[vorbis_found=no])
+AC_ARG_ENABLE([vorbis],
+	AS_HELP_STRING([--enable-vorbis],[enable OGG decoding via libvorbis [default=yes]]),
+	[],[enable_vorbis=yes])
+AS_IF([test x$enable_vorbis = xyes], [
+	AS_IF([test x$ogg_found = xyes -a x$vorbis_found = xyes -a x$vorbisfile_found = xyes ], [
+		AC_DEFINE([SOUND_SUPPORTS_OGG],[1],[Define if OGG support is desired.])
+		AX_APPEND_LINK_FLAGS([$OGG_LIBS $VORBIS_LIBS $VORBISFILE_LIBS],[LIBS])
+		AX_APPEND_COMPILE_FLAGS([$OGG_CFLAGS $VORBIS_CFLAGS $VORBISFILE_LIBS],[CFLAGS])
+	], [
+		AC_MSG_NOTICE([*** vorbis requested but not found! ***])
+	])
+])
 
 dnl Note that we intentionally look for a symbol in FLAC 1.0.4, since the
 dnl  FLAC developers tend to break their API with every release, so we're
