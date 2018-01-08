@@ -94,17 +94,6 @@ dnl ---------------------------------------------------------------------
 dnl Checks for libraries.
 dnl ---------------------------------------------------------------------
 
-dnl Check for SDL
-SDL_VERSION=2.0.0
-AC_SUBST(SDL_VERSION)
-AM_PATH_SDL2($SDL_VERSION,
-            :,
- 	     AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
-)
-CFLAGS="$CFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS"
-
-
 dnl Check for voc decoder inclusion...
 AC_ARG_ENABLE([voc],
 	AS_HELP_STRING([--enable-voc], [enable VOC decoding [default=yes]]),
@@ -276,6 +265,18 @@ AC_TYPE_SIZE_T
 
 AC_FUNC_MEMCMP
 AC_CHECK_FUNCS([malloc memset strrchr setbuf])
+
+dnl Check for SDL2
+dnl Moved here because the -Dmain=SDL_main in SDL_CFLAGS throws
+dnl off quite a lot of other autotools flags.
+PKG_CHECK_MODULES([SDL],[sdl2],[sdl_found=yes],[sdl_found=no])
+AC_CHECK_LIB(SDL2, SDL_Init, have_sdl=yes)
+AS_IF([test x$sdl_found = xyes -a x$have_sdl = xyes], [
+	AX_APPEND_LINK_FLAGS([-lSDL2],[LIBS])
+	AX_APPEND_COMPILE_FLAGS([$SDL_CFLAGS],[CFLAGS])
+], [
+	AC_MSG_ERROR([*** SDL2 required! ***])
+])
 
 AX_APPEND_COMPILE_FLAGS([-D_REENTRANT -D_THREAD_SAFE],[CFLAGS])
 
