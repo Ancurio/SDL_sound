@@ -274,6 +274,7 @@ AC_CHECK_LIB(SDL2, SDL_Init, have_sdl=yes)
 AS_IF([test x$sdl_found = xyes -a x$have_sdl = xyes], [
 	AX_APPEND_LINK_FLAGS([-lSDL2],[LIBS])
 	AX_APPEND_COMPILE_FLAGS([$SDL_CFLAGS],[CFLAGS])
+	AC_SUBST([SDL_VERSION])
 ], [
 	AC_MSG_ERROR([*** SDL2 required! ***])
 ])
