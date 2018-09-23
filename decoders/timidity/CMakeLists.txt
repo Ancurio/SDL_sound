@@ -30,3 +30,7 @@ target_compile_definitions(timidity PRIVATE
   -D_CRT_SECURE_NO_WARNINGS)
 
 target_link_libraries(timidity PUBLIC)
+
+if(NOT BUILD_SHARED_LIBS)
+  install(TARGETS timidity DESTINATION lib)
+endif()

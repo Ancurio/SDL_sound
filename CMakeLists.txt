@@ -20,6 +20,7 @@ macro(make_simple_import name varname header library)
     IMPORTED_LOCATION "${${varname}_LIB}")
 endmacro()
 
+option(BUILD_SHARED_LIBS "build shared library" ON)
 doption(ENABLE_VOC "enable VOC decoding" ON SOUND_SUPPORTS_VOC)
 doption(ENABLE_WAV "enable WAV decoding" ON SOUND_SUPPORTS_WAV)
 doption(ENABLE_RAW "enable RAW audio \"decoding\"" ON SOUND_SUPPORTS_RAW)

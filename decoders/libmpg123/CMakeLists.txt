@@ -52,3 +52,7 @@ target_compile_definitions(mpg123 PRIVATE
   -D_CRT_SECURE_NO_WARNINGS)
 
 target_link_libraries(mpg123 PUBLIC)
+
+if(NOT BUILD_SHARED_LIBS)
+  install(TARGETS mpg123 DESTINATION lib)
+endif()

@@ -56,3 +56,7 @@ endif()
 if(ENABLE_PHYSFS)
   target_link_libraries(decoders PUBLIC physfs::physfs)
 endif()
+
+if(NOT BUILD_SHARED_LIBS)
+  install(TARGETS decoders DESTINATION lib)
+endif()
