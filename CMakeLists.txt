@@ -1,6 +1,9 @@
 project(SDL_sound)
 cmake_minimum_required(VERSION 3.1.2)
 
+set(VERSION 1.0.1)
+set(SOVERSION 1)
+
 macro(doption name help default def)
   option(${name} ${help} ${default})
   if(${name})
@@ -119,12 +122,20 @@ add_library(SDL_sound
 add_subdirectory(decoders)
 
 target_link_libraries(SDL_sound decoders SDL2::SDL2)
-set_target_properties(SDL_sound PROPERTIES VERSION 1.0.1 SOVERSION 1)
+set_target_properties(SDL_sound PROPERTIES VERSION ${VERSION} SOVERSION ${SOVERSION})
 target_include_directories(SDL_sound PUBLIC .)
 
 add_subdirectory(playsound)
 
-# # TODO generate package-config file
-# install(FILES  SDL_sound.pc DESTINATION)
+# pkg-config file
+set(prefix "${CMAKE_INSTALL_PREFIX}")
+set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+set(libdir "${CMAKE_INSTALL_PREFIX}/lib")
+set(includedir "${CMAKE_INSTALL_PREFIX}/include")
+set(SDL_VERSION 2.0.0)
+configure_file(SDL_sound.pc.in SDL_sound.pc)
+
+# install
 install(TARGETS SDL_sound DESTINATION lib)
-install(FILES  SDL_sound.h DESTINATION include/SDL2)
+install(FILES SDL_sound.h DESTINATION include/SDL2)
+install(FILES SDL_sound.pc DESTINATION lib/pkgconfig)

@@ -12,6 +12,3 @@ if(ENABLE_PHYSFS)
   target_link_libraries(playsound physfs::physfs)
   target_link_libraries(playsound_simple physfs::physfs)
 endif()
-
-install(TARGETS playsound DESTINATION bin)
-install(TARGETS playsound_simple DESTINATION bin)
