@@ -16,42 +16,28 @@
 
 #include "config.h"
 
-#ifdef HAVE_STDLIB_H
 /* realloc, size_t */
 #include <stdlib.h>
-#endif
 
 #include        <stdio.h>
 #include        <math.h>
 
-#ifdef HAVE_SIGNAL_H
 #include <signal.h>
-#else
-#ifdef HAVE_SYS_SIGNAL_H
-#include <sys/signal.h>
-#endif
-#endif
 
-#ifdef HAVE_UNISTD_H
+#ifdef _MSC_VER
+#include <io.h>
+#else
 #include <unistd.h>
 #endif
 
 /* Types, types, types. */
 /* Do we actually need these two in addition to sys/types.h? As replacement? */
-#ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
-#endif
-#ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
-#endif
-#ifdef HAVE_STDINT_H
 #include <stdint.h>
-#endif
 /* We want SIZE_MAX, etc. */
-#ifdef HAVE_LIMITS_H
 #include <limits.h>
-#endif
- 
+
 #ifndef SIZE_MAX
 #define SIZE_MAX ((size_t)-1)
 #endif
@@ -59,40 +45,30 @@
 #define ULONG_MAX ((unsigned long)-1)
 #endif
 
-#ifdef HAVE_STRING_H
 #include <string.h>
+#if defined _MSC_VER
+#define strcasecmp stricmp
+#define strncasecmp strnicmp
 #endif
 
 #ifdef OS2
 #include <float.h>
 #endif
 
-#ifdef HAVE_SYS_TIME_H
+#if defined _MSC_VER
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#else
 #include <sys/time.h>
-#endif
-/* For select(), I need select.h according to POSIX 2001, else: sys/time.h sys/types.h unistd.h */
-#ifdef HAVE_SYS_SELECT_H
-#include <sys/select.h>
 #endif
 
 /* To parse big numbers... */
-#ifdef HAVE_ATOLL
-#define atobigint atoll
-#else
 #define atobigint atol
-#endif
 
 typedef unsigned char byte;
 
 /* A safe realloc also for very old systems where realloc(NULL, size) returns NULL. */
 void *safe_realloc(void *ptr, size_t size);
-#ifndef HAVE_STRERROR
-const char *strerror(int errnum);
-#endif
-
-#ifndef HAVE_STRDUP
-char *strdup(const char *s);
-#endif
 
 /* If we have the size checks enabled, try to derive some sane printfs.
    Simple start: Use max integer type and format if long is not big enough.

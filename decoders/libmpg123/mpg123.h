@@ -8,6 +8,8 @@
 #ifndef MPG123_LIB_H
 #define MPG123_LIB_H
 
+#include "compat.h"
+
 /** \file mpg123.h The header file for the libmpg123 MPEG Audio decoder */
 
 /* These aren't actually in use... seems to work without using libtool. */

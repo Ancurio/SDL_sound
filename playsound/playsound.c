@@ -32,16 +32,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#if HAVE_ASSERT_H
-#  include <assert.h>
-#elif (!defined assert)
-#  define assert(x)
-#endif
-
-#if HAVE_SIGNAL_H
-#  include <signal.h>
-#endif
+#include <assert.h>
+#include <signal.h>
 
 #include "SDL.h"
 #include "SDL_sound.h"
@@ -1107,4 +1099,3 @@ int main(int argc, char **argv)
 } /* main */
 
 /* end of playsound.c ... */
-
