@@ -40,7 +40,7 @@ doption(STATIC_FLAC "FLAC should be linked as a static library" OFF FLAC__NO_DLL
 # SDL2
 add_library(SDL2::SDL2 UNKNOWN IMPORTED)
 find_path(SDL2_INCLUDE SDL.h PATH_SUFFIXES SDL2)
-find_library(SDL2_LIB SDL2)
+find_library(SDL2_LIB NAMES SDL2 SDL2d)
 set_target_properties(SDL2::SDL2 PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${SDL2_INCLUDE}"
   IMPORTED_LOCATION "${SDL2_LIB}")
@@ -59,7 +59,7 @@ if(WIN32)
   if(MINGW)
     list(APPEND libs mingw32)
   endif()
-  find_library(SDL2MAIN_LIB SDL2main)
+  find_library(SDL2MAIN_LIB NAMES SDL2main SDL2maind)
   list(APPEND libs "${SDL2MAIN_LIB}")
   set_target_properties(SDL2::SDL2main PROPERTIES
     IMPORTED_LOCATION "${SDL2MAIN_LIB}"
