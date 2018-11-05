@@ -47,7 +47,10 @@ set_target_properties(SDL2::SDL2 PROPERTIES
 if(WIN32)
   set(libs user32 gdi32 winmm imm32 ole32 oleaut32 version uuid advapi32 shell32)
 else()
-  set(libs dl rt pthread m)
+  set(libs dl pthread m)
+  if(NOT APPLE)
+    list(APPEND libs rt)
+  endif()
 endif()
 set_target_properties(SDL2::SDL2 PROPERTIES
   INTERFACE_LINK_LIBRARIES "${libs}")
