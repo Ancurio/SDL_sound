@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.1.2)
 set(VERSION 1.0.1)
 set(SOVERSION 1)
 
+set(CMAKE_FIND_FRAMEWORK NEVER)
+
 macro(doption name help default def)
   option(${name} ${help} ${default})
   if(${name})
