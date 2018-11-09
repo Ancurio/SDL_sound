@@ -745,7 +745,11 @@ static void report_filename(const char *filename)
         SDL_WM_SetCaption(icon, icon);
     else
     {
+#ifdef _MSC_VER
+        _snprintf_s(buf, len, "%s: %s", icon, filename);
+#else
         snprintf(buf, len, "%s: %s", icon, filename);
+#endif
         SDL_WM_SetCaption(buf, icon);
         free(buf);
     } /* else */

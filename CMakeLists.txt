@@ -5,6 +5,7 @@ set(VERSION 1.0.1)
 set(SOVERSION 1)
 
 set(CMAKE_FIND_FRAMEWORK NEVER)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 macro(doption name help default def)
   option(${name} ${help} ${default})
@@ -144,6 +145,9 @@ set(SDL_VERSION 2.0.0)
 configure_file(SDL_sound.pc.in SDL_sound.pc)
 
 # install
-install(TARGETS SDL_sound DESTINATION lib)
+install(TARGETS SDL_sound
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
 install(FILES SDL_sound.h DESTINATION include/SDL2)
 install(FILES SDL_sound.pc DESTINATION lib/pkgconfig)
