@@ -11,6 +11,13 @@
 #include "getbits.h"
 #include "debug.h"
 
+#ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
+#include <Availability.h>
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_15
+void ntom_set_ntom(mpg123_handle *fr, off_t num);
+#endif
+#endif
+
 #ifdef GAPLESS
 #define SAMPLE_ADJUST(x)   ((x) - ((mh->p.flags & MPG123_GAPLESS) ? mh->begin_os : 0))
 #define SAMPLE_UNADJUST(x) ((x) + ((mh->p.flags & MPG123_GAPLESS) ? mh->begin_os : 0))
