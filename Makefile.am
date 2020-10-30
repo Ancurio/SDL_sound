@@ -52,3 +52,5 @@ dist-hook:
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = SDL_sound.pc
+
+ACLOCAL_AMFLAGS = -I m4
