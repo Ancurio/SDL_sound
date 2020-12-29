@@ -12,9 +12,9 @@ PHYSFS_LIBS =
 endif
 
 playsound_CFLAGS = $(PHYSFS_CFLG)
-playsound_LDADD = ../libSDL_sound.la $(PHYSFS_LIBS)
+playsound_LDADD = ../libSDL2_sound.la $(PHYSFS_LIBS)
 playsound_SOURCES = playsound.c physfsrwops.c physfsrwops.h
 
-playsound_simple_LDADD = ../libSDL_sound.la
+playsound_simple_LDADD = ../libSDL2_sound.la
 playsound_simple_SOURCES = playsound_simple.c
 

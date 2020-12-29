@@ -3,9 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: SDL_sound
+Name: SDL2_sound
 Description: audio decoding library for Simple DirectMedia Layer
 Version: @VERSION@
 Requires: sdl2 >= @SDL_VERSION@
-Libs: -L${libdir} -lSDL_sound
+Libs: -L${libdir} -lSDL2_sound
 Cflags: -I${includedir}/SDL2

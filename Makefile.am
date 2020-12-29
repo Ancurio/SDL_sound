@@ -1,12 +1,12 @@
-lib_LTLIBRARIES = libSDL_sound.la
+lib_LTLIBRARIES = libSDL2_sound.la
 
 SUBDIRS = decoders .
 
-libSDL_soundincludedir = $(includedir)/SDL2
-libSDL_soundinclude_HEADERS =	\
+libSDL2_soundincludedir = $(includedir)/SDL2
+libSDL2_soundinclude_HEADERS =	\
 	SDL_sound.h
 
-libSDL_sound_la_SOURCES =	\
+libSDL2_sound_la_SOURCES =	\
 	SDL_sound.c	\
 	SDL_sound_internal.h	\
     audio_convert.c   \
@@ -25,11 +25,11 @@ else
 MPG123_LIB =
 endif
 
-libSDL_sound_la_LDFLAGS = 		\
+libSDL2_sound_la_LDFLAGS = 		\
 	-release $(LT_RELEASE)	\
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
 	-no-undefined
-libSDL_sound_la_LIBADD =	\
+libSDL2_sound_la_LIBADD =	\
 	decoders/libdecoders.la	\
 	$(TIMIDITY_LIB) $(MPG123_LIB)
 
@@ -51,4 +51,4 @@ dist-hook:
 	rm -rf `find $(distdir) -type d -name ".svn"`
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = SDL_sound.pc
+pkgconfig_DATA = SDL2_sound.pc
