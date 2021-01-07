@@ -671,7 +671,6 @@ int parse_new_id3(mpg123_handle *fr, unsigned long first4bytes)
 									break;
 									case rva2: /* "the" RVA tag */
 									{
-										#ifdef HAVE_INTTYPES_H
 										/* starts with null-terminated identification */
 										if(VERBOSE3) fprintf(stderr, "Note: RVA2 identification \"%s\"\n", realdata);
 										/* default: some individual value, mix mode */
@@ -699,9 +698,6 @@ int parse_new_id3(mpg123_handle *fr, unsigned long first4bytes)
 												fr->rva.level[rva_mode] = rva2+1;
 											}
 										}
-										#else
-										if(NOQUIET) warning("ID3v2: Cannot parse RVA2 value because I don't have a guaranteed 16 bit signed integer type");
-										#endif
 									}
 									break;
 									/* non-rva metainfo, simply store... */
