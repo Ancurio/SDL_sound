@@ -18,9 +18,7 @@
 #endif
 
 /* a limit for number of frames in a track; beyond that unsigned long may not be enough to hold byte addresses */
-#ifdef HAVE_LIMITS_H
 #include <limits.h>
-#endif
 #ifndef ULONG_MAX
 /* hm, is this portable across preprocessors? */
 #define ULONG_MAX ((unsigned long)-1)

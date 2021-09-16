@@ -165,7 +165,11 @@ static const char *set_error(mpg123_handle *mp, const int err)
     else
         str = mpg123_plain_strerror(err);
 
+#ifdef _MSC_VER
+    _snprintf_s(buffer, sizeof (buffer), "MPG123: %s", str);
+#else
     snprintf(buffer, sizeof (buffer), "MPG123: %s", str);
+#endif
     __Sound_SetError(buffer);
     
     return(NULL);  /* this is for BAIL_MACRO to not try to reset the string. */

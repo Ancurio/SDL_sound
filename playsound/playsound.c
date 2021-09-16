@@ -32,16 +32,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#if HAVE_ASSERT_H
-#  include <assert.h>
-#elif (!defined assert)
-#  define assert(x)
-#endif
-
-#if HAVE_SIGNAL_H
-#  include <signal.h>
-#endif
+#include <assert.h>
+#include <signal.h>
 
 #include "SDL.h"
 #include "SDL_sound.h"
@@ -753,7 +745,11 @@ static void report_filename(const char *filename)
         SDL_WM_SetCaption(icon, icon);
     else
     {
+#ifdef _MSC_VER
+        _snprintf_s(buf, len, "%s: %s", icon, filename);
+#else
         snprintf(buf, len, "%s: %s", icon, filename);
+#endif
         SDL_WM_SetCaption(buf, icon);
         free(buf);
     } /* else */
@@ -1107,4 +1103,3 @@ int main(int argc, char **argv)
 } /* main */
 
 /* end of playsound.c ... */
-
