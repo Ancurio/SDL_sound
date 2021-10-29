@@ -46,7 +46,7 @@ AC_CANONICAL_TARGET
 
 dnl Setup for automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(SDL_sound, $VERSION)
+AM_INIT_AUTOMAKE(SDL2_sound, $VERSION)
 
 
 dnl ---------------------------------------------------------------------
@@ -342,5 +342,5 @@ decoders/Makefile
 decoders/timidity/Makefile
 decoders/libmpg123/Makefile
 playsound/Makefile
-SDL_sound.pc
+SDL2_sound.pc
 ])
